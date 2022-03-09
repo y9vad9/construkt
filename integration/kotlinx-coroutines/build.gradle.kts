@@ -3,13 +3,14 @@ plugins {
 }
 
 dependencies {
-    implementation(Deps.Libs.Kotlinx.Coroutines)
+    api(project(Deps.Modules.Core))
+    api(Deps.Libs.Kotlinx.Coroutines)
 }
 
 android {
     compileSdk = Deps.compileSdkVersion
 
     kotlinOptions {
-        freeCompilerArgs = listOf("-Xexplicit-api=strict", "-Xcontext-receivers")
+        freeCompilerArgs = listOf("-Xcontext-receivers")
     }
 }

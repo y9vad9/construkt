@@ -10,8 +10,7 @@ import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 class ExtensionsCodeGenerator(
     private val name: String,
     private val packageName: String,
-    private val functions: List<Func>,
-    private val origin: Type
+    private val functions: List<Func>
 ) : CodeGenerator<Pair<List<PropertySpec>, List<FunSpec>>> {
     override fun generate(): Pair<List<PropertySpec>, List<FunSpec>> {
         val funs = functions.filter { it.arguments.size > 1 }.map { func ->

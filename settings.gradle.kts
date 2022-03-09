@@ -4,6 +4,10 @@ pluginManagement {
         mavenCentral()
         google()
     }
+    plugins {
+        id("com.google.devtools.ksp") version "1.6.20-RC-1.0.4"
+        id("org.jetbrains.kotlin.android") version "1.6.20-RC"
+    }
 }
 
 dependencyResolutionManagement {
@@ -23,4 +27,4 @@ includeBuild("build-logic/dependencies")
 includeBuild("build-logic/configuration")
 //includeBuild("buildUtils/library-deploy")
 
-include(":core", ":codegen")
+include(":core", ":codegen", ":ksp", ":example", ":integration:kotlinx-coroutines", ":integration:androidx-lifecycle")

@@ -1,3 +1,7 @@
 package com.construct.annotation
 
-public annotation class ViewDSL
+import android.view.ViewGroup.LayoutParams
+import kotlin.reflect.KClass
+
+@Target(AnnotationTarget.TYPEALIAS)
+public annotation class ViewDSL(val layoutParamsClass: KClass<LayoutParams>)

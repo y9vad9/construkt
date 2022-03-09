@@ -9,4 +9,8 @@ dependencies {
 
 android {
     compileSdk = Deps.compileSdkVersion
+
+    kotlinOptions {
+        freeCompilerArgs = listOf("-Xcontext-receivers")
+    }
 }

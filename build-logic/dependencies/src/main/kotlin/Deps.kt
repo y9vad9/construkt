@@ -4,7 +4,7 @@ object Deps {
     const val compileSdkVersion = 32
     const val minSdkVersion = 21
     
-    private const val kotlinVersion = "1.6.20-M1"
+    private const val kotlinVersion = "1.6.20-RC"
     private const val coroutinesVersion = "1.6.0"
     private const val serializationVersion = "1.3.2"
     private const val nodejsExternalsVersion = "0.0.7"
@@ -34,11 +34,26 @@ object Deps {
     private const val kdsVer = "1.1.0"
     private const val scriptKtVer = "0.0.4"
 
+    private const val kspVersion = "1.6.20-RC-1.0.4"
+
     object Modules {
         const val Core = ":core"
+        const val Codegen = ":codegen"
+        const val KSP = ":ksp"
+        object Integration {
+            const val Androidx = ":integration:androidx-lifecycle"
+            const val KotlinxCoroutines = ":integration:kotlinx-coroutines"
+        }
     }
 
     object Libs {
+        object Kotlin {
+            const val Reflection = "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+            const val JUnit = "org.jetbrains.kotlin:kotlin-test-junit5:$kotlinVersion"
+        }
+        object KSP {
+            const val Api = "com.google.devtools.ksp:symbol-processing-api:$kspVersion"
+        }
         object KotlinPoet {
             const val KotlinPoet = "com.squareup:kotlinpoet:1.10.2"
             const val KSP = "com.squareup:kotlinpoet-ksp:1.10.2"
@@ -140,6 +155,7 @@ object Deps {
                 "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
             const val LifecycleKtx =
                 "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
+            const val LifecycleViewModel = "androidx.lifecycle:lifecycle-viewmodel:$lifecycleVersion"
 
             object Compose {
                 const val UI = "androidx.compose.ui:ui:$androidComposeVersion"
@@ -150,6 +166,7 @@ object Deps {
                 const val ExtendedIcons = "androidx.compose.material:material-icons-extended:$androidComposeVersion"
                 const val JUnitTests = "androidx.compose.ui:ui-test-junit4:$androidComposeVersion"
                 const val Activity = "androidx.activity:activity-compose:1.4.0-alpha02"
+                const val LifecycleViewModel = "androidx.lifecycle:lifecycle-viewmodel:$lifecycleVersion"
             }
         }
         object Bumtech {
@@ -163,6 +180,10 @@ object Deps {
         }
     }
     object Plugins {
+        object KSP {
+            const val Id = "com.google.devtools.ksp"
+            const val Classpath = "com.google.devtools.ksp:symbol-processing-gradle-plugin:$kspVersion"
+        }
         object Configuration {
             object Kotlin {
                 const val Mpp = "k-mpp"

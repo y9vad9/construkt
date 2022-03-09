@@ -9,10 +9,10 @@ public interface State<T> {
     /**
      * Collects values that arrive to [State].
      */
-    public fun collect(collector: suspend () -> Unit)
+    public fun collect(collector: suspend (T) -> Unit)
 }
 
 public fun <T> emptyState(value: T): State<T> = object : State<T> {
     override val value: T = value
-    override fun collect(collector: suspend () -> Unit) = Unit
+    override fun collect(collector: suspend (T) -> Unit) = Unit
 }
