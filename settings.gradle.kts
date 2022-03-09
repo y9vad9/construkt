@@ -17,8 +17,10 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "kotlin-project-template"
+rootProject.name = "construct"
 
 includeBuild("build-logic/dependencies")
 includeBuild("build-logic/configuration")
 //includeBuild("buildUtils/library-deploy")
+
+include(":core", ":codegen")

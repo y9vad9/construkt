@@ -1,7 +1,7 @@
 @file:Suppress("FunctionName", "unused")
 
 object Deps {
-    const val compileSdkVersion = 31
+    const val compileSdkVersion = 32
     const val minSdkVersion = 21
     
     private const val kotlinVersion = "1.6.20-M1"
@@ -34,8 +34,15 @@ object Deps {
     private const val kdsVer = "1.1.0"
     private const val scriptKtVer = "0.0.4"
 
-    object Libs {
+    object Modules {
+        const val Core = ":core"
+    }
 
+    object Libs {
+        object KotlinPoet {
+            const val KotlinPoet = "com.squareup:kotlinpoet:1.10.2"
+            const val KSP = "com.squareup:kotlinpoet-ksp:1.10.2"
+        }
         object KotlinGang {
             object KDS {
                 const val FileDataStorage = "fun.kotlingang.kds:json-files:$kdsVer"
