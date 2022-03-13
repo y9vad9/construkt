@@ -2,18 +2,19 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id(Deps.Plugins.Configuration.Kotlin.Mpp)
-    id(Deps.Plugins.Android.Library)
 }
 
 kotlin {
-    android()
+    jvm()
 
     sourceSets {
-        val androidMain by getting {
+        val jvmMain by getting {
             dependencies {
-                implementation(project(Deps.Modules.Core))
                 implementation(project(Deps.Modules.Codegen))
                 implementation(Deps.Libs.KSP.Api)
+                implementation(Deps.Libs.KotlinPoet.KotlinPoet)
+                implementation(Deps.Libs.KotlinPoet.KSP)
+                implementation(project(Deps.Modules.Annotation))
             }
             kotlin.srcDir("src/main/kotlin")
             resources.srcDir("src/main/resources")
@@ -21,12 +22,8 @@ kotlin {
     }
 }
 
-android {
-    compileSdk = Deps.compileSdkVersion
-}
-
 tasks.withType<KotlinCompile> {
     kotlinOptions {
-        freeCompilerArgs = listOf("-Xcontext-receivers")
+        freeCompilerArgs = listOf("-Xcontext-receivers", "-opt-in=kotlin.RequiresOptIn")
     }
 }

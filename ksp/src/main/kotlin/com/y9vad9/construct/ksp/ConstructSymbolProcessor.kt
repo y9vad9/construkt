@@ -10,14 +10,17 @@ import com.google.devtools.ksp.symbol.KSAnnotated
 
 class ConstructSymbolProcessor(private val environment: SymbolProcessorEnvironment) : SymbolProcessor {
     private var evaluated = false
+
     @OptIn(KspExperimental::class)
     override fun process(resolver: Resolver): List<KSAnnotated> {
-        if(evaluated)
-            return emptyList()
+        if (evaluated)
+            return listOf()
+        val annotated =
+            resolver.getAllFiles().flatMap { it.declarations }.filter { it.isAnnotationPresent(ViewDSL::class) }
         evaluated = true
-        resolver.getAllFiles().filter { it.isAnnotationPresent(ViewDSL::class) }.forEach {
+        annotated.forEach {
             it.accept(ViewDSLVisitor(environment.codeGenerator), Unit)
         }
-        return emptyList()
+        return listOf()
     }
 }

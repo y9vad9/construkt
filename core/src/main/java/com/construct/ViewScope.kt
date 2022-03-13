@@ -2,6 +2,7 @@ package com.construct
 
 import android.content.Context
 import android.view.View
+import androidx.lifecycle.LifecycleOwner
 import com.construct.annotation.InternalConstructApi
 
 /**
@@ -12,6 +13,12 @@ public interface ViewScope {
      * Current context.
      */
     public val context: Context
+
+    /**
+     * Current lifecycle owner
+     */
+    public val lifecycleOwner: LifecycleOwner
+
     /**
      * Adds view into views hierarchy.
      * Available even for not [android.view.ViewGroup]s to disallow invalid dsl scope adding.
@@ -19,5 +26,7 @@ public interface ViewScope {
      */
     @InternalConstructApi
     @Throws(IllegalStateException::class)
-    public fun addView(view: View)
+    public fun addView(view: View) {
+        throw IllegalStateException("Unsupported")
+    }
 }

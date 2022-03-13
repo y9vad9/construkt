@@ -11,6 +11,12 @@ android {
         minSdk = Deps.minSdkVersion
     }
 
+    sourceSets {
+        getByName("main") {
+            kotlin.srcDir("build/generated/ksp/release/kotlin")
+        }
+    }
+
     kotlinOptions {
         freeCompilerArgs = listOf("-opt-in=kotlin.RequiresOptIn", "-Xcontext-receivers")
     }
@@ -19,7 +25,9 @@ android {
 dependencies {
     implementation(Deps.Libs.Androidx.AppCompat)
     implementation(Deps.Libs.Androidx.LifecycleViewModel)
+    implementation(Deps.Libs.Androidx.LifecycleKtx)
+    implementation(Deps.Libs.Kotlinx.Coroutines)
+    implementation(project(Deps.Modules.Core))
     ksp(project(Deps.Modules.KSP))
-    implementation(project(Deps.Modules.Integration.Androidx))
-    implementation(project(Deps.Modules.Integration.KotlinxCoroutines))
+    implementation(project(Deps.Modules.Annotation))
 }

@@ -27,4 +27,6 @@ includeBuild("build-logic/dependencies")
 includeBuild("build-logic/configuration")
 //includeBuild("buildUtils/library-deploy")
 
-include(":core", ":codegen", ":ksp", ":example", ":integration:kotlinx-coroutines", ":integration:androidx-lifecycle")
+include(
+    ":core", ":codegen", ":ksp", ":example", ":annotation"
+)

@@ -26,7 +26,7 @@ object Deps {
     private const val glideVersion = "4.12.0"
     private const val androidAppCompatVersion = "1.3.1"
     private const val androidComposeVersion = "1.1.0-alpha04"
-    private const val androidGradlePluginVersion = "4.2.2"
+    private const val androidGradlePluginVersion = "7.0.0"
 
     private const val kvisionVersion = "5.1.1"
     private const val shadowVer = "7.0.0"
@@ -40,6 +40,7 @@ object Deps {
         const val Core = ":core"
         const val Codegen = ":codegen"
         const val KSP = ":ksp"
+        const val Annotation = ":annotation"
         object Integration {
             const val Androidx = ":integration:androidx-lifecycle"
             const val KotlinxCoroutines = ":integration:kotlinx-coroutines"

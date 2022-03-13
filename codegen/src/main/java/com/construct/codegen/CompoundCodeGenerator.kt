@@ -1,52 +1,56 @@
 package com.construct.codegen
 
-import com.construct.descriptions.Func
-import com.construct.descriptions.Property
-import com.construct.descriptions.Type
+import com.google.devtools.ksp.symbol.KSFunctionDeclaration
+import com.google.devtools.ksp.symbol.KSPropertyDeclaration
+import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 
 class CompoundCodeGenerator(
-    private val viewType: Type,
-    functions: List<Func>,
-    properties: List<Property>
+    private val viewType: ClassName,
+    isViewGroup: Boolean,
+    layoutParams: ClassName,
+    functions: List<KSFunctionDeclaration>,
+    properties: List<KSPropertyDeclaration>
 ) : CodeGenerator<FileSpec> {
+    private val interfaceName = ClassName(viewType.packageName, viewType.simpleName.plus("Scope"))
+    private val implementationName = ClassName(viewType.packageName, viewType.simpleName.plus("ScopeImpl"))
 
-    private val funs = functions + properties.map { Func(it.name, listOf(it.type), it.type) } // then it will be anyway mapped into properties back
-
-    private val dslFunGenerator = DSLFunctionCodeGeneration(
-        viewType.name.replaceFirstChar { it.lowercase() },
-        viewType, viewType.name.plus("ScopeImpl"),
-        Type(viewType.packageName, viewType.name.plus("Scope"), emptyList())
+    private val dslFunsGenerator = DSLFunctionsGenerator(
+        layoutParams,
+        interfaceName,
+        implementationName,
+        viewType,
+        viewType.simpleName.replaceFirstChar { it.lowercase() }
     )
 
-    private val interfaceCodeGenerator = InterfaceCodeGenerator(
-        viewType.name.plus("Scope"),
-        funs
+    private val interfaceCodeGenerator = InterfaceGenerator(
+        interfaceName,
+        functions,
+        properties
     )
 
-    private val implementationCodeGenerator = ImplementationClassCodeGenerator(
-        viewType.name.plus("ScopeImpl"),
-        funs,
-        viewType
+    private val implementationCodeGenerator = ImplementationGeneration(
+        implementationName,
+        interfaceName,
+        viewType,
+        functions,
+        properties,
+        isViewGroup
     )
 
-    private val extensionCodeGenerator = ExtensionsCodeGenerator(
-        viewType.name.plus("Scope"),
-        viewType.packageName,
-        funs,
-        Type(viewType.packageName, viewType.name.plus("DSL"), listOf())
+    private val extensionCodeGenerator = ExtensionsGenerator(
+        interfaceName, functions, properties
     )
 
     override fun generate(): FileSpec {
-        return FileSpec.builder(viewType.packageName, viewType.name)
+        return FileSpec.builder(viewType.packageName, viewType.simpleName)
+            .addImport("androidx.lifecycle", "lifecycleScope")
+            .addImport("kotlinx.coroutines", "launch")
             .addType(interfaceCodeGenerator.generate())
             .addType(implementationCodeGenerator.generate())
             .apply {
-                val extensions = extensionCodeGenerator.generate()
-                extensions.first.forEach { addProperty(it) }
-                extensions.second.forEach { addFunction(it) }
+                (extensionCodeGenerator.generate() + dslFunsGenerator.generate()).forEach { addFunction(it) }
             }
-            .addFunction(dslFunGenerator.generate())
             .build()
     }
 
