@@ -32,7 +32,6 @@ class AppActivity : AppCompatActivity() {
         }
     }
 }
-}
 ```
 
 | ![Example](assets/videos/example.gif) |
