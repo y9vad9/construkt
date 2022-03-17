@@ -19,5 +19,5 @@ private class RootViewScope(override val context: Context, override val lifecycl
 }
 
 public fun ComponentActivity.setContent(builder: ViewScope.() -> Unit) {
-    RootViewScope(this, this).apply(builder)
+    setContentView(RootViewScope(this, this).apply(builder).rootView)
 }

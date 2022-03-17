@@ -7,13 +7,16 @@ android {
     compileSdk = Deps.compileSdkVersion
 
     defaultConfig {
-        applicationId = AppInfo.PACKAGE
+        applicationId = "${AppInfo.PACKAGE}.example.app"
         minSdk = Deps.minSdkVersion
     }
 
     sourceSets {
         getByName("main") {
             kotlin.srcDir("build/generated/ksp/release/kotlin")
+        }
+        getByName("debug") {
+            kotlin.srcDir("build/generated/ksp/debug/kotlin")
         }
     }
 

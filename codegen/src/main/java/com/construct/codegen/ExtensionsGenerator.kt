@@ -5,6 +5,7 @@ import com.construct.internal.extensions.toParameterSpec
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.google.devtools.ksp.symbol.KSPropertyDeclaration
 import com.google.devtools.ksp.symbol.KSValueParameter
+import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
@@ -15,7 +16,7 @@ class ExtensionsGenerator(
     private val functions: List<KSFunctionDeclaration>,
     private val properties: List<KSPropertyDeclaration>
 ) : CodeGenerator<List<FunSpec>> {
-    private fun functionOf(function: KSFunctionDeclaration): FunSpec {
+    private fun functionOf(function: KSFunctionDeclaration, annotated: Boolean = false, index: Int = 0): FunSpec {
         val parametersCall = function.parameters.joinToString("\n") { parameter ->
             parameter.name!!.asString() + ".collect { ${function.simpleName.asString().formatFunctionName()}(${
                 function.parameters.joinToString(
@@ -25,6 +26,13 @@ class ExtensionsGenerator(
         }
         return FunSpec.builder(function.simpleName.asString().formatFunctionName())
             .receiver(interfaceName)
+            .apply {
+                if (annotated)
+                    addAnnotation(
+                        AnnotationSpec.builder(JvmName::class)
+                            .addMember("\"${function.simpleName.asString().formatFunctionName()}$index\"").build()
+                    )
+            }
             .addParameters(
                 function.parameters.map(KSValueParameter::toParameterSpec)
                     .map {
@@ -63,6 +71,13 @@ class ExtensionsGenerator(
     }
 
     override fun generate(): List<FunSpec> {
-        return functions.map(::functionOf) + properties.map(::functionOf)
+        return functions
+            .groupBy { it.parameters.size to it.simpleName.asString() }
+            .map {
+                when (it.value.size) {
+                    1 -> listOf(functionOf(it.value[0]))
+                    else -> it.value.mapIndexed { index, declaration -> functionOf(declaration, true, index) }
+                }
+            }.flatten()
     }
 }

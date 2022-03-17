@@ -35,9 +35,11 @@ class AppActivity : AppCompatActivity() {
             }
         }
 
+
         lifecycleScope.launch {
-            delay(1000L)
+            delay(3000L)
             text.value = "Bye, world!"
+            resId.value = android.R.drawable.btn_plus
         }
     }
 }

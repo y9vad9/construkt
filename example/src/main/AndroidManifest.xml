@@ -6,11 +6,12 @@
             android:allowBackup="true"
             android:fullBackupContent="true"
             android:label="Construct Example"
+            android:theme="@style/Theme.AppCompat"
             android:supportsRtl="true">
         <activity
                 android:exported="true"
                 android:name=".AppActivity"
-                android:label="Vocabulary">
+                android:label="Construct Example">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

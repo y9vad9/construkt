@@ -17,13 +17,20 @@ class ImplementationGeneration(
 ) : CodeGenerator<TypeSpec> {
 
     private fun functionOf(function: KSFunctionDeclaration): FunSpec {
+        val parameters = function.parameters.joinToString(", ") { parameter ->
+            parameter.name!!.asString().let {
+                if (parameter.isVararg)
+                    "*$it"
+                else it
+            }
+        }
         return FunSpec.builder(function.simpleName.asString().formatFunctionName())
             .addModifiers(KModifier.OVERRIDE)
             .addParameters(
                 function.parameters.map(KSValueParameter::toParameterSpec)
             ).addCode(
                 """
-                origin.${function.simpleName.asString()}(${function.parameters.joinToString(", ") { it.name!!.asString() }})
+                origin.${function.simpleName.asString()}($parameters)
             """.trimIndent()
             ).build()
     }
@@ -65,6 +72,8 @@ class ImplementationGeneration(
         if (isViewGroup)
             addFunction(
                 FunSpec.builder("addView")
+                    .addAnnotation(ClassName("com.construct.annotation", "InternalConstructApi"))
+                    .addModifiers(KModifier.OVERRIDE)
                     .addParameter("view", ClassName("android.view", "View"))
                     .addCode(
                         """
