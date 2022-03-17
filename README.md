@@ -1,65 +1,85 @@
 # Android-View-DSL
 The main goal of this project is to explore the abilities of **Kotlin** for making DSL of regular Views.
+> Just playground. Not for prod.
 ## How it looks like
 In my head it looks like this:
-```kotlin
-override fun onCreate(bundle: Bundle?) {
-    super.onCreate(bundle)
-    val textState = mutableStateOf<String>("Hello, World!")
-    setContent { // context: [Layout]
-        linearLayout(layoutParams().maxSize()) {
-            orientation = LinearLayout.VERTICAL
 
-            textView(layoutParams().maxWidth()) {
-                text = textState
-                textSize = 24.sp
+```kotlin
+class AppActivity : AppCompatActivity() {
+    private val resId = MutableStateFlow(android.R.drawable.btn_star)
+    private val text = MutableStateFlow("Hello, World")
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            linearLayout(layoutParams().maxSize()) {
+                orientation(LinearLayout.VERTICAL)
+
+                imageView(layoutParams().wrapContentSize()) {
+                    imageResource(resId)
+                    gravity(Gravity.CENTER)
+                }
+
+                textView(layoutParams().wrapContentSize()) {
+                    text(text)
+                }
             }
         }
-    }
 
-    // somewhere after
-    viewModelScope.launch {
-        delay(1000L)
-        textState.value = "Bye, World!"
+
+        lifecycleScope.launch {
+            delay(3000L)
+            text.value = "Bye, world!"
+            resId.value = android.R.drawable.btn_plus
+        }
     }
 }
+}
 ```
+
 ### Generation
+
 Every view except of base interfaces will be generated. So, there will be provided an api with ksp to generate such DSL.
-Using the `@ViewDSL` annotation, library will generate interface, implementation for interface (to show only api for end user), function that will automatically add view into view hiarchy and extensions. 
+Using the `@ViewDSL` annotation, library will generate interface, implementation for interface (to show only api for end
+user), function that will automatically add view into view hiarchy and extensions.
+
 ##### Example:
+
+[![Example](assets/videos/example.gif)](assets/videos/example.gif)
+
+###### Code
+
 ```kotlin
 @ViewDSL
 typealias TextView = android.widget.TextView
 ```
+
 Generates:
+
 ```kotlin
 interface TextView {
-    var text: String
-    var textSize: Int
+    fun text(text: String)
+    fun textSize(textSize: Int)
     ...
 }
 
-fun ViewGroup.textView(layoutParams: LayoutParams = EmptyLayoutParams, block: TextView.() -> Unit) {
+fun ViewGroup.textView(layoutParams: LayoutParams? = null, block: TextView.() -> Unit) {
     addView(TextViewImpl().apply(block))
 }
 
-var TextView.text: State<String>
-    private get
-    set(value) = state.onUpdate { text = it }
+fun ViewGroup.textView(layoutParams: State<LayoutParams>, block: TextView.() -> Unit) {
+    addView(TextViewImpl().apply(block))
+}
 
-var TextView.textSize: State<Int>
-    private get
-    set(value) = state.onUpdate { textSize = it }
-```
-### States
-State is just alternative to `Observable<T>` or `StateFlow<T>` in Android-Views DSL System. It just watches for setting value and notifies subscribers about update. Simply interface with `value` property and `onUpdate` function.
-There will be builtin integration of `kotlinx.coroutines.StateFlow<T>`. Sample:
-```kotlin
-textView(/*..*/ ) {
-    // ..
-    text = viewModel.text.asState(scope)
-    // ..
+fun TextView.text(text: State<String>) {
+    lifecycleOwner.lifecycleScope.launch {
+        text.collect { text(it) }
+    }
+}
+
+fun TextView.textSize(textSize: State<Int>) {
+    lifecycleOwner.lifecycleScope.launch {
+        textSize.collect { textSize(it) }
+    }
 }
 ```
-To disallow state-function generation we may use `@Stateless` annotation.

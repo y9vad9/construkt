@@ -14,7 +14,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 class AppActivity : AppCompatActivity() {
-
     private val resId = MutableStateFlow(android.R.drawable.btn_star)
     private val text = MutableStateFlow("Hello, World")
 
