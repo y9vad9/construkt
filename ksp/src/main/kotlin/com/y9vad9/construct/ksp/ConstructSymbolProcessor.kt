@@ -1,6 +1,6 @@
 package com.y9vad9.construct.ksp
 
-import com.construct.annotation.ViewDSL
+import com.construkt.annotation.ViewDSL
 import com.google.devtools.ksp.KspExperimental
 import com.google.devtools.ksp.isAnnotationPresent
 import com.google.devtools.ksp.processing.Resolver

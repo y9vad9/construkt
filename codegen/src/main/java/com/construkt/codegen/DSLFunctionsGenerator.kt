@@ -1,4 +1,4 @@
-package com.construct.codegen
+package com.construkt.codegen
 
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy

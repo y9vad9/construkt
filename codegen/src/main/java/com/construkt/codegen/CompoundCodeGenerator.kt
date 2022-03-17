@@ -1,4 +1,4 @@
-package com.construct.codegen
+package com.construkt.codegen
 
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.google.devtools.ksp.symbol.KSPropertyDeclaration

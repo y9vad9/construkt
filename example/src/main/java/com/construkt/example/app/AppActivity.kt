@@ -1,14 +1,14 @@
-package com.construct.example.app
+package com.construkt.example.app
 
 import android.os.Bundle
 import android.view.Gravity
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.construct.layoutParams
-import com.construct.maxSize
-import com.construct.setContent
-import com.construct.wrapContentSize
+import com.construkt.layoutParams
+import com.construkt.maxSize
+import com.construkt.setContent
+import com.construkt.wrapContentSize
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch

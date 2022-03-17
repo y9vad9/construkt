@@ -1,4 +1,4 @@
-package com.construct.annotation
+package com.construkt.annotation
 
 /**
  * Marks that API shouldn't be used outside DSL generation.

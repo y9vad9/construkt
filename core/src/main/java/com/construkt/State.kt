@@ -1,4 +1,4 @@
-package com.construct
+package com.construkt
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

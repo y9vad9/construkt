@@ -1,11 +1,11 @@
-package com.construct
+package com.construkt
 
 import android.content.Context
 import android.view.View
 import android.widget.LinearLayout
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.LifecycleOwner
-import com.construct.annotation.InternalConstructApi
+import com.construkt.annotation.InternalConstructApi
 
 private class RootViewScope(override val context: Context, override val lifecycleOwner: LifecycleOwner) : ViewScope {
     val rootView = LinearLayout(context).apply {

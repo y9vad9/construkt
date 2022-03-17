@@ -1,9 +1,9 @@
-package com.construct
+package com.construkt
 
 import android.content.Context
 import android.view.View
 import androidx.lifecycle.LifecycleOwner
-import com.construct.annotation.InternalConstructApi
+import com.construkt.annotation.InternalConstructApi
 
 /**
  * Basic scope of every DSL view builders.

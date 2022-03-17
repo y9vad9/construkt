@@ -1,7 +1,7 @@
-package com.construct.codegen
+package com.construkt.codegen
 
-import com.construct.internal.extensions.formatFunctionName
-import com.construct.internal.extensions.toParameterSpec
+import com.construkt.internal.extensions.formatFunctionName
+import com.construkt.internal.extensions.toParameterSpec
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.google.devtools.ksp.symbol.KSPropertyDeclaration
 import com.google.devtools.ksp.symbol.KSValueParameter

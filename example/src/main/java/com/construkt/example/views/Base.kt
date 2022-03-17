@@ -1,6 +1,6 @@
-package com.construct.example.views
+package com.construkt.example.views
 
-import com.construct.annotation.ViewDSL
+import com.construkt.annotation.ViewDSL
 
 @ViewDSL
 typealias TextView = android.widget.TextView

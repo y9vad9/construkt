@@ -1,6 +1,6 @@
 package com.y9vad9.construct.ksp
 
-import com.construct.codegen.CompoundCodeGenerator
+import com.construkt.codegen.CompoundCodeGenerator
 import com.google.devtools.ksp.isPublic
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.Dependencies

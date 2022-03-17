@@ -1,4 +1,4 @@
-package com.construct.internal.extensions
+package com.construkt.internal.extensions
 
 import com.google.devtools.ksp.symbol.KSValueParameter
 import com.squareup.kotlinpoet.ParameterSpec

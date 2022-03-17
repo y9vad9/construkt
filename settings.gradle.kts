@@ -21,7 +21,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "construct"
+rootProject.name = "construkt"
 
 includeBuild("build-logic/dependencies")
 includeBuild("build-logic/configuration")
