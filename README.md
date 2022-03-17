@@ -2,8 +2,6 @@
 The main goal of this project is to explore the abilities of **Kotlin** for making DSL of regular Views.
 > Just playground. Not for prod.
 ## How it looks like
-In my head it looks like this:
-
 ```kotlin
 class AppActivity : AppCompatActivity() {
     private val resId = MutableStateFlow(android.R.drawable.btn_star)
@@ -42,7 +40,7 @@ class AppActivity : AppCompatActivity() {
 
 ### Generation
 
-Every view except of base interfaces will be generated. So, there will be provided an api with ksp to generate such DSL.
+Every view except of base interfaces will be generated. So, there is provided an api with ksp to generate such DSL.
 Using the `@ViewDSL` annotation, library will generate interface, implementation for interface (to show only api for end
 user), function that will automatically add view into view hiarchy and extensions.
 
