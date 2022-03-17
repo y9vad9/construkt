@@ -37,6 +37,9 @@ class AppActivity : AppCompatActivity() {
 }
 ```
 
+| ![Example](assets/videos/example.gif) |
+|---------------------------------------|
+
 ### Generation
 
 Every view except of base interfaces will be generated. So, there will be provided an api with ksp to generate such DSL.
@@ -44,11 +47,6 @@ Using the `@ViewDSL` annotation, library will generate interface, implementation
 user), function that will automatically add view into view hiarchy and extensions.
 
 ##### Example:
-
-[![Example](assets/videos/example.gif)](assets/videos/example.gif)
-
-###### Code
-
 ```kotlin
 @ViewDSL
 typealias TextView = android.widget.TextView
