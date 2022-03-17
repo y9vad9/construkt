@@ -1,4 +1,4 @@
-# Construct
+# Construkt
 The main goal of this project is to explore the abilities of **Kotlin** for making DSL of regular Views.
 > Just playground. Not for prod.
 ## How it looks like
