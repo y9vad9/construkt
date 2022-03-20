@@ -7,4 +7,4 @@ package com.construkt.annotation
     message = "This API shouldn't be used outside DSL generation. Internal API.",
     level = RequiresOptIn.Level.WARNING
 )
-public annotation class InternalConstructApi
+public annotation class InternalConstruktApi

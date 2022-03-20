@@ -37,7 +37,7 @@ class ExtensionsGenerator(
                 function.parameters.map(KSValueParameter::toParameterSpec)
                     .map {
                         it.toBuilder(
-                            type = ClassName("com.construct", "State").parameterizedBy(it.type)
+                            type = ClassName("com.construkt", "State").parameterizedBy(it.type)
                         ).build()
                     }
             ).addCode(

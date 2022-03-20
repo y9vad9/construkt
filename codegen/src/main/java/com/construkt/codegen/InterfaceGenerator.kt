@@ -13,7 +13,8 @@ import com.squareup.kotlinpoet.TypeSpec
 class InterfaceGenerator(
     private val className: ClassName,
     private val functions: List<KSFunctionDeclaration>,
-    private val properties: List<KSPropertyDeclaration>
+    private val properties: List<KSPropertyDeclaration>,
+    private val isViewGroup: Boolean
 ) : CodeGenerator<TypeSpec> {
     private fun functionOf(function: KSFunctionDeclaration): FunSpec {
         return FunSpec.builder(function.simpleName.asString().formatFunctionName())
@@ -31,7 +32,7 @@ class InterfaceGenerator(
 
     override fun generate(): TypeSpec {
         return TypeSpec.interfaceBuilder(className)
-            .addSuperinterface(ClassName("com.construct", "ViewScope"))
+            .addSuperinterface(ClassName("com.construkt", if(isViewGroup) "ViewGroupScope" else "ViewScope"))
             .addFunctions(functions.map(::functionOf))
             .addFunctions(properties.map(::functionOf))
             .build()

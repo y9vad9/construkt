@@ -8,12 +8,13 @@ class DSLFunctionsGenerator(
     private val interfaceName: ClassName,
     private val implementation: ClassName,
     private val origin: ClassName,
-    private val functionName: String
+    private val functionName: String,
+    private val annotationName: String
 ) : CodeGenerator<List<FunSpec>> {
 
     private fun function(): FunSpec {
         return FunSpec.builder(functionName)
-            .receiver(ClassName("com.construct", "ViewScope"))
+            .receiver(ClassName("com.construkt", "ViewGroupScope"))
             .addParameter(
                 ParameterSpec.builder("layoutParams", layoutParams.copy(nullable = true)).defaultValue("null").build()
             )
@@ -35,8 +36,8 @@ class DSLFunctionsGenerator(
 
     private fun functionStated(): FunSpec {
         return FunSpec.builder(functionName)
-            .receiver(ClassName("com.construct", "ViewScope"))
-            .addParameter("layoutParams", ClassName("com.construct", "State").parameterizedBy(layoutParams))
+            .receiver(ClassName("com.construkt", "ViewGroupScope"))
+            .addParameter("layoutParams", ClassName("com.construkt", "State").parameterizedBy(layoutParams))
             .addParameter(
                 "builder",
                 LambdaTypeName.get(receiver = interfaceName, returnType = Unit::class.asClassName())

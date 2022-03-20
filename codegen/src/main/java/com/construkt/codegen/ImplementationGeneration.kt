@@ -69,10 +69,10 @@ class ImplementationGeneration(
     }
 
     private fun TypeSpec.Builder.applyAddViewIfPossible(): TypeSpec.Builder = apply {
-        if (isViewGroup)
+        if (isViewGroup) {
             addFunction(
                 FunSpec.builder("addView")
-                    .addAnnotation(ClassName("com.construct.annotation", "InternalConstructApi"))
+                    .addAnnotation(ClassName("com.construkt.annotation", "InternalConstructApi"))
                     .addModifiers(KModifier.OVERRIDE)
                     .addParameter("view", ClassName("android.view", "View"))
                     .addCode(
@@ -82,6 +82,19 @@ class ImplementationGeneration(
                     )
                     .build()
             )
+            addFunction(
+                FunSpec.builder("removeViewView")
+                    .addAnnotation(ClassName("com.construkt.annotation", "InternalConstructApi"))
+                    .addModifiers(KModifier.OVERRIDE)
+                    .addParameter("view", ClassName("android.view", "View"))
+                    .addCode(
+                        """
+                    origin.removeView(view)
+                """.trimIndent()
+                    )
+                    .build()
+            )
+        }
     }
 
     override fun generate(): TypeSpec {

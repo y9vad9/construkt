@@ -4,6 +4,7 @@ import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.google.devtools.ksp.symbol.KSPropertyDeclaration
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
+import com.squareup.kotlinpoet.asClassName
 
 class CompoundCodeGenerator(
     private val viewType: ClassName,
@@ -12,6 +13,7 @@ class CompoundCodeGenerator(
     functions: List<KSFunctionDeclaration>,
     properties: List<KSPropertyDeclaration>
 ) : CodeGenerator<FileSpec> {
+    private val annotationName = "${viewType.simpleName}DSL"
     private val interfaceName = ClassName(viewType.packageName, viewType.simpleName.plus("Scope"))
     private val implementationName = ClassName(viewType.packageName, viewType.simpleName.plus("ScopeImpl"))
 
@@ -20,13 +22,15 @@ class CompoundCodeGenerator(
         interfaceName,
         implementationName,
         viewType,
-        viewType.simpleName.replaceFirstChar { it.lowercase() }
+        viewType.simpleName.replaceFirstChar { it.lowercase() },
+        annotationName
     )
 
     private val interfaceCodeGenerator = InterfaceGenerator(
         interfaceName,
         functions,
-        properties
+        properties,
+        isViewGroup
     )
 
     private val implementationCodeGenerator = ImplementationGeneration(
