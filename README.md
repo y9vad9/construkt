@@ -41,7 +41,7 @@ class AppActivity : AppCompatActivity() {
 
 Every view except of base interfaces will be generated. So, there is provided an api with ksp to generate such DSL.
 Using the `@ViewDSL` annotation, library will generate interface, implementation for interface (to show only api for end
-user), function that will automatically add view into view hiarchy and extensions.
+user), function that will automatically add view into view hierarchy and extensions.
 
 ##### Example:
 ```kotlin
