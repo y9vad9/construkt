@@ -1,8 +1,7 @@
 package com.construkt
 
-import android.content.Context
 import android.util.DisplayMetrics
 
-context(Context)
+context(ViewScope)
 public val Int.dp: Int
-    get() = this * (resources.displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT)
+    get() = this * (context.resources.displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT)
