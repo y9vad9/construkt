@@ -9,6 +9,14 @@ public fun LayoutParams.maxSize(): LayoutParams = apply {
     height = LayoutParams.MATCH_PARENT
 }
 
+public fun LayoutParams.height(size: Int): LayoutParams = apply {
+    height = size
+}
+
+public fun LayoutParams.width(size: Int): LayoutParams = apply {
+    width = size
+}
+
 public fun LayoutParams.wrapContentSize(): LayoutParams = apply {
     width = LayoutParams.WRAP_CONTENT
     height = LayoutParams.WRAP_CONTENT
