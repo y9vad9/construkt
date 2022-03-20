@@ -5,6 +5,7 @@ plugins {
 dependencies {
     implementation(Deps.Libs.Kotlinx.Coroutines)
     implementation(Deps.Libs.Androidx.AppCompat)
+    api(Deps.Libs.Androidx.LifecycleKtx)
 }
 
 android {
