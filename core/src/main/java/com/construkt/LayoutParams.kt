@@ -19,6 +19,11 @@ public fun <T : LayoutParams> T.width(size: Int): T = apply {
     width = size
 }
 
+public fun <T : LayoutParams> T.size(size: Int): T = apply {
+    width = size
+    height = size
+}
+
 public fun <T : LayoutParams> T.wrapContentSize(): T = apply {
     width = LayoutParams.WRAP_CONTENT
     height = LayoutParams.WRAP_CONTENT
@@ -29,8 +34,12 @@ public fun <T : LayoutParams> T.wrapContentWidth(): T = apply {
 }
 
 public fun <T : LayoutParams> T.wrapContentHeight(): T = apply {
-    width = LayoutParams.WRAP_CONTENT
     height = LayoutParams.WRAP_CONTENT
+}
+
+public fun <T : LayoutParams> T.wrapContent(): T = apply {
+    height = LayoutParams.WRAP_CONTENT
+    width = LayoutParams.WRAP_CONTENT
 }
 
 public fun <T : LayoutParams> T.maxWidth(): T = apply {
