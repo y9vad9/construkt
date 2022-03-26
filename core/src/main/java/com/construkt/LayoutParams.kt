@@ -2,10 +2,12 @@ package com.construkt
 
 import android.view.ViewGroup.LayoutParams
 import android.view.ViewGroup.MarginLayoutParams
+import android.widget.LinearLayout
 
 public fun layoutParams(): LayoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
 public fun marginLayoutParams(): MarginLayoutParams =
     MarginLayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
+public fun linearLayoutParams(): LinearLayout.LayoutParams = LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
 
 public fun <T : LayoutParams> T.maxSize(): T = apply {
     width = LayoutParams.MATCH_PARENT
@@ -70,3 +72,13 @@ public fun MarginLayoutParams.marginBottom(size: Int): MarginLayoutParams = appl
 public fun MarginLayoutParams.marginTop(size: Int): MarginLayoutParams = apply {
     topMargin = size
 }
+
+public fun LinearLayout.LayoutParams.weight(weight: Float): LinearLayout.LayoutParams = apply {
+    this.weight = weight
+}
+
+public fun LinearLayout.LayoutParams.gravity(gravity: Int): LinearLayout.LayoutParams = apply {
+    this.gravity = gravity
+}
+
+
