@@ -16,21 +16,21 @@ import com.construkt.annotation.Unsupported
 public annotation class MenuDSL
 
 @InternalConstruktApi
-public fun Menu.menuDsl(): MenuDSLScopeScope = MenuDSLScopeImplScope(this)
+public fun Menu.menuDsl(): MenuDSLScope = MenuDSLImplScope(this)
 
-public interface MenuDSLScopeScope : MenuGroupDSLScope {
+public interface MenuDSLScope : MenuGroupDSLScope {
     public fun group(id: Int, block: MenuGroupDSLScope.() -> Unit)
 }
 
 @MenuDSL
 public interface MenuGroupDSLScope {
-    public fun submenu(id: Int = Menu.NONE, title: String, block: SubMenuDSLScopeScope.() -> Unit)
-    public fun submenu(id: Int = Menu.NONE, titleRes: Int, block: SubMenuDSLScopeScope.() -> Unit)
+    public fun submenu(id: Int = Menu.NONE, title: String, block: SubMenuDSLScope.() -> Unit)
+    public fun submenu(id: Int = Menu.NONE, titleRes: Int, block: SubMenuDSLScope.() -> Unit)
     public fun item(text: CharSequence, id: Int = Menu.NONE): MenuItem
     public fun item(textRes: Int, id: Int = Menu.NONE): MenuItem
 }
 
-public interface SubMenuDSLScopeScope : MenuDSLScopeScope {
+public interface SubMenuDSLScope : MenuDSLScope {
     public fun headerIcon(@DrawableRes resource: Int)
     public fun headerIcon(drawable: Drawable)
     public fun headerTitle(@StringRes resource: Int)
@@ -44,7 +44,7 @@ public interface SubMenuDSLScopeScope : MenuDSLScopeScope {
      */
     @Unsupported
     @Throws(UnsupportedOperationException::class)
-    override fun submenu(id: Int, title: String, block: SubMenuDSLScopeScope.() -> Unit) {
+    override fun submenu(id: Int, title: String, block: SubMenuDSLScope.() -> Unit) {
         throw UnsupportedOperationException("Sub menu does not support submenus.")
     }
 
@@ -53,28 +53,28 @@ public interface SubMenuDSLScopeScope : MenuDSLScopeScope {
      */
     @Unsupported
     @Throws(UnsupportedOperationException::class)
-    override fun submenu(id: Int, titleRes: Int, block: SubMenuDSLScopeScope.() -> Unit) {
+    override fun submenu(id: Int, titleRes: Int, block: SubMenuDSLScope.() -> Unit) {
         throw UnsupportedOperationException("Sub menu does not support submenus.")
     }
 }
 
-internal class MenuDSLScopeImplScope(private val menu: Menu) : MenuDSLScopeScope {
+internal class MenuDSLImplScope(private val menu: Menu) : MenuDSLScope {
     override fun item(text: CharSequence, id: Int): MenuItem {
-        return menu.add(text)
+        return menu.add(Menu.NONE, id, Menu.NONE, text)
     }
 
     override fun item(textRes: Int, id: Int): MenuItem {
-        return menu.add(textRes)
+        return menu.add(Menu.NONE, id, Menu.NONE, textRes)
     }
 
-    override fun submenu(id: Int, title: String, block: SubMenuDSLScopeScope.() -> Unit) {
+    override fun submenu(id: Int, title: String, block: SubMenuDSLScope.() -> Unit) {
         val submenu = menu.addSubMenu(Menu.NONE, id, Menu.NONE, title)
-        SubMenuDSLScopeScopeImpl(submenu).apply(block)
+        SubMenuDSLScopeImpl(submenu).apply(block)
     }
 
-    override fun submenu(id: Int, titleRes: Int, block: SubMenuDSLScopeScope.() -> Unit) {
+    override fun submenu(id: Int, titleRes: Int, block: SubMenuDSLScope.() -> Unit) {
         val submenu = menu.addSubMenu(Menu.NONE, id, Menu.NONE, titleRes)
-        SubMenuDSLScopeScopeImpl(submenu).apply(block)
+        SubMenuDSLScopeImpl(submenu).apply(block)
     }
 
     override fun group(id: Int, block: MenuGroupDSLScope.() -> Unit) {
@@ -82,7 +82,7 @@ internal class MenuDSLScopeImplScope(private val menu: Menu) : MenuDSLScopeScope
     }
 }
 
-internal class SubMenuDSLScopeScopeImpl(private val menu: SubMenu) : SubMenuDSLScopeScope {
+internal class SubMenuDSLScopeImpl(private val menu: SubMenu) : SubMenuDSLScope {
     override fun item(text: CharSequence, id: Int): MenuItem {
         return menu.add(Menu.NONE, id, Menu.NONE, text)
     }
@@ -108,7 +108,7 @@ internal class SubMenuDSLScopeScopeImpl(private val menu: SubMenu) : SubMenuDSLS
     }
 
     override fun ViewScope<*>.header(block: ViewGroupScope<*>.() -> Unit) {
-        this@SubMenuDSLScopeScopeImpl.menu.setHeaderView(RootViewScope(context, lifecycleOwner).apply(block).origin)
+        this@SubMenuDSLScopeImpl.menu.setHeaderView(RootViewScope(context, lifecycleOwner).apply(block).origin)
     }
 
     override fun icon(resource: Int) {
@@ -133,13 +133,13 @@ internal class MenuGroupDSLScopeImpl(private val id: Int, private val menu: Menu
         return menu.add(this@MenuGroupDSLScopeImpl.id, id, Menu.NONE, textRes)
     }
 
-    override fun submenu(id: Int, titleRes: Int, block: SubMenuDSLScopeScope.() -> Unit) {
+    override fun submenu(id: Int, titleRes: Int, block: SubMenuDSLScope.() -> Unit) {
         val submenu = menu.addSubMenu(this.id, id, Menu.NONE, titleRes)
-        SubMenuDSLScopeScopeImpl(submenu).apply(block)
+        SubMenuDSLScopeImpl(submenu).apply(block)
     }
 
-    override fun submenu(id: Int, title: String, block: SubMenuDSLScopeScope.() -> Unit) {
+    override fun submenu(id: Int, title: String, block: SubMenuDSLScope.() -> Unit) {
         val submenu = menu.addSubMenu(this.id, id, Menu.NONE, title)
-        SubMenuDSLScopeScopeImpl(submenu).apply(block)
+        SubMenuDSLScopeImpl(submenu).apply(block)
     }
 }
