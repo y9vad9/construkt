@@ -6,7 +6,7 @@ import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.TypeName
 
 object Builtins {
-    val MenuDSL = ClassName("com.construkt.builtins", "MenuDSL")
+    val MenuDSL = ClassName("com.construkt.builtins", "MenuDSLScope")
     fun State(type: TypeName): ParameterizedTypeName =
         ClassName("com.construkt", "State").parameterizedBy(type)
 
