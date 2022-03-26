@@ -21,7 +21,7 @@ context(ViewGroupScope<V>)
     var previous = value
 
     @OptIn(InternalConstruktApi::class)
-    val stated = statedViewGroup(origin.childCount)
+    val stated = statedViewGroup(origin.childCount - 1)
     block(stated, value)
     lifecycleOwner.lifecycleScope.launch {
         collect {
@@ -51,6 +51,7 @@ private class StatedViewGroup<T : ViewGroup>(val scope: ViewGroupScope<T>, priva
     @OptIn(InternalConstruktApi::class)
     override fun addView(view: View, index: Int) {
         latest++
+        tree.add(view)
         origin.addView(view, latest)
     }
 }
