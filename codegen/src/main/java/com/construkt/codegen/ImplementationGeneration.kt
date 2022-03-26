@@ -1,10 +1,11 @@
 package com.construkt.codegen
 
-import com.construkt.internal.extensions.formatFunctionName
-import com.construkt.internal.extensions.toParameterSpec
+import com.construkt.codegen.mapper.implementation.CollectedFunctionToImplMapper
+import com.construkt.codegen.mapper.implementation.CollectedPropertyToFunImplMapper
+import com.construkt.types.Android
+import com.construkt.types.Annotations
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.google.devtools.ksp.symbol.KSPropertyDeclaration
-import com.google.devtools.ksp.symbol.KSValueParameter
 import com.squareup.kotlinpoet.*
 
 class ImplementationGeneration(
@@ -16,52 +17,23 @@ class ImplementationGeneration(
     private val isViewGroup: Boolean
 ) : CodeGenerator<TypeSpec> {
 
-    private fun functionOf(function: KSFunctionDeclaration): FunSpec {
-        val parameters = function.parameters.joinToString(", ") { parameter ->
-            parameter.name!!.asString().let {
-                if (parameter.isVararg)
-                    "*$it"
-                else it
-            }
-        }
-        return FunSpec.builder(function.simpleName.asString().formatFunctionName())
-            .addModifiers(KModifier.OVERRIDE)
-            .addParameters(
-                function.parameters.map(KSValueParameter::toParameterSpec)
-            ).addCode(
-                """
-                origin.${function.simpleName.asString()}($parameters)
-            """.trimIndent()
-            ).build()
-    }
-
-    private fun functionOf(property: KSPropertyDeclaration): FunSpec {
-        return FunSpec.builder(property.simpleName.asString().formatFunctionName())
-            .addModifiers(KModifier.OVERRIDE)
-            .addParameter(property.toParameterSpec())
-            .addCode(
-                """
-                origin.${property.simpleName.asString()}(value)
-            """.trimIndent()
-            )
-            .build()
-    }
-
     private fun TypeSpec.Builder.applyParameters(): TypeSpec.Builder {
         addProperties(
             listOf(
-                PropertySpec.builder("context", ClassName("android.content", "Context")).initializer("context"),
-                PropertySpec.builder("lifecycleOwner", ClassName("androidx.lifecycle", "LifecycleOwner"))
+                PropertySpec.builder("context", Android.Context).initializer("context"),
+                PropertySpec.builder("lifecycleOwner", Android.LifecycleOwner)
                     .initializer("lifecycleOwner")
             ).map { it.addModifiers(KModifier.OVERRIDE).build() }
         )
-        addProperty(PropertySpec.builder("origin", origin).initializer("origin").build())
+        addProperty(
+            PropertySpec.builder("origin", origin).addModifiers(KModifier.OVERRIDE).initializer("origin").build()
+        )
         primaryConstructor(
             FunSpec.constructorBuilder().addParameters(
                 listOf(
-                    ParameterSpec.builder("context", ClassName("android.content", "Context")).build(),
+                    ParameterSpec.builder("context", Android.Context).build(),
                     ParameterSpec.builder("origin", origin).build(),
-                    ParameterSpec.builder("lifecycleOwner", ClassName("androidx.lifecycle", "LifecycleOwner")).build()
+                    ParameterSpec.builder("lifecycleOwner", Android.LifecycleOwner).build()
                 )
             ).build()
         )
@@ -72,26 +44,19 @@ class ImplementationGeneration(
         if (isViewGroup) {
             addFunction(
                 FunSpec.builder("addView")
-                    .addAnnotation(ClassName("com.construkt.annotation", "InternalConstructApi"))
+                    .addAnnotation(Annotations.InternalConstruktApi)
                     .addModifiers(KModifier.OVERRIDE)
-                    .addParameter("view", ClassName("android.view", "View"))
-                    .addCode(
-                        """
-                    origin.addView(view)
-                """.trimIndent()
-                    )
+                    .addParameter("view", Android.View)
+                    .addParameter("index", INT)
+                    .addStatement("origin.addView(view, index)")
                     .build()
             )
             addFunction(
-                FunSpec.builder("removeViewView")
-                    .addAnnotation(ClassName("com.construkt.annotation", "InternalConstructApi"))
+                FunSpec.builder("removeView")
+                    .addAnnotation(Annotations.InternalConstruktApi)
                     .addModifiers(KModifier.OVERRIDE)
-                    .addParameter("view", ClassName("android.view", "View"))
-                    .addCode(
-                        """
-                    origin.removeView(view)
-                """.trimIndent()
-                    )
+                    .addParameter("view", Android.View)
+                    .addStatement("origin.removeView(view)")
                     .build()
             )
         }
@@ -101,8 +66,8 @@ class ImplementationGeneration(
         return TypeSpec.classBuilder(className.simpleName)
             .addModifiers(KModifier.PRIVATE)
             .addSuperinterface(interfaceName)
-            .addFunctions(functions.map(::functionOf))
-            .addFunctions(properties.map(::functionOf))
+            .addFunctions(functions.mapNotNull(CollectedFunctionToImplMapper))
+            .addFunctions(properties.mapNotNull(CollectedPropertyToFunImplMapper))
             .applyParameters()
             .applyAddViewIfPossible()
             .build()

@@ -1,5 +1,6 @@
 package com.construkt.codegen
 
+import com.construkt.types.Builtins
 import com.squareup.kotlinpoet.*
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 
@@ -14,7 +15,7 @@ class DSLFunctionsGenerator(
 
     private fun function(): FunSpec {
         return FunSpec.builder(functionName)
-            .receiver(ClassName("com.construkt", "ViewGroupScope"))
+            .receiver(Builtins.ViewGroupScope(STAR))
             .addParameter(
                 ParameterSpec.builder("layoutParams", layoutParams.copy(nullable = true)).defaultValue("null").build()
             )
@@ -36,7 +37,7 @@ class DSLFunctionsGenerator(
 
     private fun functionStated(): FunSpec {
         return FunSpec.builder(functionName)
-            .receiver(ClassName("com.construkt", "ViewGroupScope"))
+            .receiver(ClassName("com.construkt", "ViewGroupScope").parameterizedBy(STAR))
             .addParameter("layoutParams", ClassName("com.construkt", "State").parameterizedBy(layoutParams))
             .addParameter(
                 "builder",

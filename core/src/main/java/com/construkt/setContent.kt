@@ -7,20 +7,22 @@ import androidx.activity.ComponentActivity
 import androidx.lifecycle.LifecycleOwner
 import com.construkt.annotation.InternalConstruktApi
 
-private class RootViewScope(override val context: Context, override val lifecycleOwner: LifecycleOwner) : ViewGroupScope {
-    val rootView = FrameLayout(context)
+internal class RootViewScope(override val context: Context, override val lifecycleOwner: LifecycleOwner) : ViewGroupScope<FrameLayout> {
+    @InternalConstruktApi
+    override fun addView(view: View, index: Int) {
+        origin.addView(view, index)
+    }
 
     @InternalConstruktApi
     override fun removeView(view: View) {
-        rootView.removeView(view)
+        origin.removeView(view)
     }
 
     @InternalConstruktApi
-    override fun addView(view: View) {
-        rootView.addView(view)
-    }
+    override val origin = FrameLayout(context)
 }
 
-public fun ComponentActivity.setContent(builder: ViewGroupScope.() -> Unit) {
-    setContentView(RootViewScope(this, this).apply(builder).rootView)
+@OptIn(InternalConstruktApi::class)
+public fun ComponentActivity.setContent(builder: ViewGroupScope<FrameLayout>.() -> Unit) {
+    setContentView(RootViewScope(this, this).apply(builder).origin)
 }

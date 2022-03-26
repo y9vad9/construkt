@@ -4,7 +4,6 @@ import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.google.devtools.ksp.symbol.KSPropertyDeclaration
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
-import com.squareup.kotlinpoet.asClassName
 
 class CompoundCodeGenerator(
     private val viewType: ClassName,
@@ -28,6 +27,7 @@ class CompoundCodeGenerator(
 
     private val interfaceCodeGenerator = InterfaceGenerator(
         interfaceName,
+        viewType,
         functions,
         properties,
         isViewGroup
@@ -50,6 +50,7 @@ class CompoundCodeGenerator(
         return FileSpec.builder(viewType.packageName, viewType.simpleName)
             .addImport("androidx.lifecycle", "lifecycleScope")
             .addImport("kotlinx.coroutines", "launch")
+            .addImport("com.construkt.builtins", "menuDsl")
             .addType(interfaceCodeGenerator.generate())
             .addType(implementationCodeGenerator.generate())
             .apply {
