@@ -6,7 +6,7 @@ import com.construkt.annotation.InternalConstruktApi
 
 public interface ViewGroupScope<T : ViewGroup> : ViewScope<T> {
     @InternalConstruktApi
-    public fun addView(view: View, index: Int = 0)
+    public fun addView(view: View, index: Int = -1)
 
     @InternalConstruktApi
     public fun removeView(view: View)

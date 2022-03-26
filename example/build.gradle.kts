@@ -27,6 +27,7 @@ android {
 
 dependencies {
     implementation(Deps.Libs.Androidx.AppCompat)
+    implementation(Deps.Libs.Androidx.Material)
     implementation(Deps.Libs.Androidx.LifecycleViewModel)
     implementation(Deps.Libs.Androidx.LifecycleKtx)
     implementation(Deps.Libs.Kotlinx.Coroutines)

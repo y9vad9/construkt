@@ -7,38 +7,50 @@ The main goal of this project is to explore the abilities of **Kotlin** for maki
 
 ```kotlin
 class AppActivity : AppCompatActivity() {
-    private val resId = MutableStateFlow(android.R.drawable.btn_star)
-    private val text = MutableStateFlow("Hello, World")
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            linearLayout(layoutParams().maxSize()) {
+            val currentScreen = MutableStateFlow<Screen>(Screen.Home)
+            linearLayout(linearLayoutParams().maxSize()) {
                 orientation(LinearLayout.VERTICAL)
-
-                imageView(layoutParams().wrapContentSize()) {
-                    imageResource(resId)
+                linearLayout(linearLayoutParams().maxWidth().weight(1f)) {
+                    orientation(LinearLayout.VERTICAL)
                     gravity(Gravity.CENTER)
+                    currentScreen.constructOnEach {
+                        when (it) {
+                            is Screen.Home -> HomeScreen()
+                            is Screen.About -> AboutScreen()
+                        }
+                    }
                 }
 
-                textView(layoutParams().wrapContentSize()) {
-                    text(text)
+                bottomNavigationView(linearLayoutParams().maxWidth()) {
+                    val color = ColorStateList(android.R.attr.state_checked to Color.WHITE, default = Color.GRAY)
+                    itemIconTintList(color)
+                    itemTextColor(color)
+                    labelVisibilityMode(NavigationBarView.LABEL_VISIBILITY_LABELED)
+
+                    menu {
+                        item("Home", id = 1).setIcon(R.drawable.ic_outline_home_24)
+                        item("About", id = 2).setIcon(R.drawable.ic_outline_info_24)
+                    }
+
+                    onItemSelectedListener {
+                        when (it.itemId) {
+                            1 -> currentScreen.value = Screen.Home
+                            2 -> currentScreen.value = Screen.About
+                        }
+                        true
+                    }
                 }
             }
-        }
-
-
-        lifecycleScope.launch {
-            delay(3000L)
-            text.value = "Bye, world!"
-            resId.value = android.R.drawable.btn_plus
         }
     }
 }
 ```
+[Full code here](example/src/main/java/com/construkt/example/app/AppView.kt)
 
-| ![Example](assets/videos/example.gif) |
-|---------------------------------------|
+[![Example](assets/videos/example.mp4)](assets/videos/example.mp4)
 
 ### Generation
 
