@@ -50,7 +50,7 @@ class AppActivity : AppCompatActivity() {
 ```
 [Full code here](example/src/main/java/com/construkt/example/app/AppView.kt)
 
-[![Example](assets/videos/example.mp4)](assets/videos/example.mp4)
+[![Example](assets/videos/example.gif)](assets/videos/example.gif)
 
 ### Generation
 
