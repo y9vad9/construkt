@@ -5,7 +5,6 @@ import com.construkt.internal.extensions.formatFunctionName
 import com.construkt.internal.extensions.toParameterSpec
 import com.construkt.matching.isMenuProperty
 import com.construkt.matching.isMutable
-import com.construkt.matching.isNotPublic
 import com.google.devtools.ksp.symbol.KSPropertyDeclaration
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier

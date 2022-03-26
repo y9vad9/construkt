@@ -1,8 +1,6 @@
 package com.construkt.codegen.mapper.abstraction
 
-import com.construkt.codegen.mapper.implementation.ImplementationFunctionMapper
 import com.construkt.codegen.mapper.Mapper
-import com.construkt.codegen.mapper.implementation.MenuFunctionToDSLMapper
 import com.construkt.matching.isMenuFunction
 import com.construkt.matching.isSetFunction
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration

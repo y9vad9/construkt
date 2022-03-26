@@ -4,7 +4,8 @@ import android.view.ViewGroup.LayoutParams
 import android.view.ViewGroup.MarginLayoutParams
 
 public fun layoutParams(): LayoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
-public fun marginLayoutParams(): MarginLayoutParams = MarginLayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
+public fun marginLayoutParams(): MarginLayoutParams =
+    MarginLayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
 
 public fun <T : LayoutParams> T.maxSize(): T = apply {
     width = LayoutParams.MATCH_PARENT

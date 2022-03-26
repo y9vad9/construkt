@@ -14,8 +14,9 @@ import com.squareup.kotlinpoet.ksp.toTypeName
 
 object FunctionToStateMapper : Mapper<FunctionToStateMapper.Data, FunSpec?> {
     class Data(val function: KSFunctionDeclaration, val index: Int, val receiver: ClassName)
+
     override fun invoke(data: Data): FunSpec? = with(data.function) {
-        if(!isSetFunction()) return@with null
+        if (!isSetFunction()) return@with null
         val functionName = simpleName.asString().formatFunctionName()
         val parameters = parameters.map {
             ParameterSpec.builder(it.name!!.asString(), Builtins.State(it.type.resolve().toTypeName())).build()

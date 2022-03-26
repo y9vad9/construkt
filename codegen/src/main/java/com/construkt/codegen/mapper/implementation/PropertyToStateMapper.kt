@@ -10,6 +10,7 @@ import com.squareup.kotlinpoet.KModifier
 
 object PropertyToStateMapper : Mapper<PropertyToStateMapper.Data, FunSpec> {
     class Data(val property: KSPropertyDeclaration, val interfaceName: ClassName)
+
     override fun invoke(data: Data): FunSpec = with(data) {
         return@with FunSpec.builder(property.simpleName.asString().formatFunctionName())
             .receiver(interfaceName)

@@ -7,7 +7,8 @@ import androidx.activity.ComponentActivity
 import androidx.lifecycle.LifecycleOwner
 import com.construkt.annotation.InternalConstruktApi
 
-internal class RootViewScope(override val context: Context, override val lifecycleOwner: LifecycleOwner) : ViewGroupScope<FrameLayout> {
+internal class RootViewScope(override val context: Context, override val lifecycleOwner: LifecycleOwner) :
+    ViewGroupScope<FrameLayout> {
     @InternalConstruktApi
     override fun addView(view: View, index: Int) {
         origin.addView(view, index)

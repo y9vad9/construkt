@@ -10,6 +10,10 @@ dependencies {
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions {
-        freeCompilerArgs = listOf("-Xcontext-receivers", "-opt-in=kotlin.RequiresOptIn", "-opt-in=com.squareup.kotlinpoet.ksp.KotlinPoetKspPreview")
+        freeCompilerArgs = listOf(
+            "-Xcontext-receivers",
+            "-opt-in=kotlin.RequiresOptIn",
+            "-opt-in=com.squareup.kotlinpoet.ksp.KotlinPoetKspPreview"
+        )
     }
 }

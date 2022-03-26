@@ -5,7 +5,8 @@ import com.construkt.codegen.mapper.abstraction.CollectedPropertyToContractMappe
 import com.construkt.types.Builtins
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.google.devtools.ksp.symbol.KSPropertyDeclaration
-import com.squareup.kotlinpoet.*
+import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.TypeSpec
 
 class InterfaceGenerator(
     private val className: ClassName,
@@ -17,7 +18,7 @@ class InterfaceGenerator(
     override fun generate(): TypeSpec {
         return TypeSpec.interfaceBuilder(className)
             .addSuperinterface(
-                if(isViewGroup) Builtins.ViewGroupScope(viewType) else Builtins.ViewScope(viewType)
+                if (isViewGroup) Builtins.ViewGroupScope(viewType) else Builtins.ViewScope(viewType)
             )
             .addFunctions(functions.mapNotNull(CollectedFunctionsToContractMapper))
             .addFunctions(properties.mapNotNull(CollectedPropertyToContractMapper))

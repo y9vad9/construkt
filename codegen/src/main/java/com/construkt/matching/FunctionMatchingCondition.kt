@@ -4,7 +4,6 @@ import com.construkt.types.Android
 import com.google.devtools.ksp.isPublic
 import com.google.devtools.ksp.symbol.KSDeclaration
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
-import java.io.File
 
 fun KSFunctionDeclaration.isMenuFunction(): Boolean {
     val type = returnType?.resolve()?.declaration ?: return false

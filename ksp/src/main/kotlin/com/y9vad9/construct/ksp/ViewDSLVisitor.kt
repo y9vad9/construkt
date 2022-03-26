@@ -19,7 +19,8 @@ class ViewDSLVisitor(private val codeGenerator: CodeGenerator) : KSVisitorVoid()
     override fun visitTypeAlias(typeAlias: KSTypeAlias, data: Unit) {
         super.visitTypeAlias(typeAlias, data)
         val view = typeAlias.type.resolve().declaration as KSClassDeclaration
-        val functions = view.getAllFunctions().filter { it.isPublic() && !it.simpleName.asString().startsWith("<") }.distinct()
+        val functions =
+            view.getAllFunctions().filter { it.isPublic() && !it.simpleName.asString().startsWith("<") }.distinct()
         val properties = view.getAllProperties().filter { it.isPublic() }.distinct()
         codeGenerator.createNewFile(
             Dependencies(false), view.packageName.asString(), view.simpleName.asString().plus("DSL")

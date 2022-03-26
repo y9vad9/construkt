@@ -13,6 +13,9 @@ import com.construkt.annotation.ConstruktDSL
 import com.construkt.annotation.InternalConstruktApi
 import com.construkt.annotation.Unsupported
 
+@DslMarker
+public annotation class MenuDSLMarker
+
 @InternalConstruktApi
 public fun Menu.menuDsl(): MenuDSL = MenuDSLImpl(this)
 
@@ -20,7 +23,7 @@ public interface MenuDSL : MenuGroupDSL {
     public fun group(id: Int, block: MenuGroupDSL.() -> Unit)
 }
 
-@ConstruktDSL
+@MenuDSLMarker
 public interface MenuGroupDSL {
     public fun submenu(id: Int = Menu.NONE, title: String, block: SubMenuDSL.() -> Unit)
     public fun submenu(id: Int = Menu.NONE, titleRes: Int, block: SubMenuDSL.() -> Unit)
@@ -126,13 +129,16 @@ internal class MenuGroupDSLImpl(private val id: Int, private val menu: Menu) : M
     override fun item(text: CharSequence, id: Int): MenuItem {
         return menu.add(this@MenuGroupDSLImpl.id, id, Menu.NONE, text)
     }
+
     override fun item(textRes: Int, id: Int): MenuItem {
         return menu.add(this@MenuGroupDSLImpl.id, id, Menu.NONE, textRes)
     }
+
     override fun submenu(id: Int, titleRes: Int, block: SubMenuDSL.() -> Unit) {
         val submenu = menu.addSubMenu(this.id, id, Menu.NONE, titleRes)
         SubMenuDSLImpl(submenu).apply(block)
     }
+
     override fun submenu(id: Int, title: String, block: SubMenuDSL.() -> Unit) {
         val submenu = menu.addSubMenu(this.id, id, Menu.NONE, title)
         SubMenuDSLImpl(submenu).apply(block)

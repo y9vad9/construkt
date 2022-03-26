@@ -1,7 +1,6 @@
 package com.construkt.codegen.mapper.implementation
 
 import com.construkt.codegen.mapper.Mapper
-import com.construkt.types.Annotations
 import com.construkt.types.Builtins
 import com.google.devtools.ksp.symbol.KSPropertyDeclaration
 import com.squareup.kotlinpoet.FunSpec

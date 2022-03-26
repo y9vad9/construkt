@@ -1,7 +1,7 @@
 package com.construkt.codegen
 
-import com.construkt.codegen.mapper.implementation.PropertyToStateMapper
 import com.construkt.codegen.mapper.implementation.FunctionToStateMapper
+import com.construkt.codegen.mapper.implementation.PropertyToStateMapper
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.google.devtools.ksp.symbol.KSPropertyDeclaration
 import com.squareup.kotlinpoet.ClassName
@@ -22,6 +22,13 @@ class ExtensionsGenerator(
                         FunctionToStateMapper(FunctionToStateMapper.Data(it.value[index], index, interfaceName))
                     }
                 }
-            }.flatten().filterNotNull() + properties.map { PropertyToStateMapper(PropertyToStateMapper.Data(it, interfaceName)) }
+            }.flatten().filterNotNull() + properties.map {
+            PropertyToStateMapper(
+                PropertyToStateMapper.Data(
+                    it,
+                    interfaceName
+                )
+            )
+        }
     }
 }

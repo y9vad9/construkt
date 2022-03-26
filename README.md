@@ -1,7 +1,10 @@
 # Construkt
+
 The main goal of this project is to explore the abilities of **Kotlin** for making DSL of regular Views.
 > Just playground. Not for prod.
+
 ## How it looks like
+
 ```kotlin
 class AppActivity : AppCompatActivity() {
     private val resId = MutableStateFlow(android.R.drawable.btn_star)
@@ -44,6 +47,7 @@ Using the `@ViewDSL` annotation, library will generate interface, implementation
 user), function that will automatically add view into view hierarchy and extensions.
 
 ##### Example:
+
 ```kotlin
 @ViewDSL
 typealias TextView = android.widget.TextView

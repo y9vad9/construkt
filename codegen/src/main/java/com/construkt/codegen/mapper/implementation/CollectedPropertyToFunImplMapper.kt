@@ -1,8 +1,6 @@
 package com.construkt.codegen.mapper.implementation
 
-import com.construkt.codegen.mapper.implementation.ImplementationPropertyMapper
 import com.construkt.codegen.mapper.Mapper
-import com.construkt.codegen.mapper.implementation.MenuPropertyToDSLMapper
 import com.construkt.matching.isMenuProperty
 import com.construkt.matching.isMutable
 import com.google.devtools.ksp.symbol.KSPropertyDeclaration
