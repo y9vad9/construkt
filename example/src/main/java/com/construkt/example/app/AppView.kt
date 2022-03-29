@@ -6,6 +6,8 @@ import android.widget.LinearLayout
 import android.widget.linearLayout
 import android.widget.textView
 import com.construkt.*
+import com.construkt.generated.layoutParams.frameLayoutParams
+import com.construkt.generated.layoutParams.weight
 import com.google.android.material.bottomnavigation.bottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,7 +32,7 @@ internal fun ViewGroupScope<*>.AppView() {
             }
         }
 
-        bottomNavigationView(linearLayoutParams().maxWidth()) {
+        bottomNavigationView(frameLayoutParams().maxWidth()) {
             val color = ColorStateList(android.R.attr.state_checked to Color.WHITE, default = Color.GRAY)
             itemIconTintList(color)
             itemTextColor(color)

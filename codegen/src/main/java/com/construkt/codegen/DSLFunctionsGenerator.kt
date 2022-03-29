@@ -9,8 +9,7 @@ class DSLFunctionsGenerator(
     private val interfaceName: ClassName,
     private val implementation: ClassName,
     private val origin: ClassName,
-    private val functionName: String,
-    private val annotationName: String
+    private val functionName: String
 ) : CodeGenerator<List<FunSpec>> {
 
     private fun function(): FunSpec {

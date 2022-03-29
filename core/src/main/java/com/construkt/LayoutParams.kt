@@ -14,14 +14,6 @@ public fun <T : LayoutParams> T.maxSize(): T = apply {
     height = LayoutParams.MATCH_PARENT
 }
 
-public fun <T : LayoutParams> T.height(size: Int): T = apply {
-    height = size
-}
-
-public fun <T : LayoutParams> T.width(size: Int): T = apply {
-    width = size
-}
-
 public fun <T : LayoutParams> T.size(size: Int): T = apply {
     width = size
     height = size
@@ -52,33 +44,3 @@ public fun <T : LayoutParams> T.maxWidth(): T = apply {
 public fun <T : LayoutParams> T.maxHeight(): T = apply {
     height = LayoutParams.MATCH_PARENT
 }
-
-public fun MarginLayoutParams.margin(size: Int): MarginLayoutParams = apply {
-    setMargins(size, size, size, size)
-}
-
-public fun MarginLayoutParams.marginStart(size: Int): MarginLayoutParams = apply {
-    marginStart = size
-}
-
-public fun MarginLayoutParams.marginEnd(size: Int): MarginLayoutParams = apply {
-    marginEnd = size
-}
-
-public fun MarginLayoutParams.marginBottom(size: Int): MarginLayoutParams = apply {
-    bottomMargin = size
-}
-
-public fun MarginLayoutParams.marginTop(size: Int): MarginLayoutParams = apply {
-    topMargin = size
-}
-
-public fun LinearLayout.LayoutParams.weight(weight: Float): LinearLayout.LayoutParams = apply {
-    this.weight = weight
-}
-
-public fun LinearLayout.LayoutParams.gravity(gravity: Int): LinearLayout.LayoutParams = apply {
-    this.gravity = gravity
-}
-
-

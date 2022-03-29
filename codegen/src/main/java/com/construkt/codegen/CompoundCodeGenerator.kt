@@ -1,5 +1,6 @@
 package com.construkt.codegen
 
+import com.construkt.models.LayoutParamsModel
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.google.devtools.ksp.symbol.KSPropertyDeclaration
 import com.squareup.kotlinpoet.ClassName
@@ -8,21 +9,20 @@ import com.squareup.kotlinpoet.FileSpec
 class CompoundCodeGenerator(
     private val viewType: ClassName,
     isViewGroup: Boolean,
-    layoutParams: ClassName,
+    layoutParams: LayoutParamsModel,
     functions: List<KSFunctionDeclaration>,
     properties: List<KSPropertyDeclaration>
 ) : CodeGenerator<FileSpec> {
-    private val annotationName = "${viewType.simpleName}DSL"
+
     private val interfaceName = ClassName(viewType.packageName, viewType.simpleName.plus("Scope"))
     private val implementationName = ClassName(viewType.packageName, viewType.simpleName.plus("ScopeImpl"))
 
     private val dslFunsGenerator = DSLFunctionsGenerator(
-        layoutParams,
+        layoutParams.name,
         interfaceName,
         implementationName,
         viewType,
-        viewType.simpleName.replaceFirstChar { it.lowercase() },
-        annotationName
+        viewType.simpleName.replaceFirstChar { it.lowercase() }
     )
 
     private val interfaceCodeGenerator = InterfaceGenerator(
@@ -45,6 +45,10 @@ class CompoundCodeGenerator(
     private val extensionCodeGenerator = ExtensionsGenerator(
         interfaceName, functions, properties
     )
+
+//    private val layoutParamsExtensionsGenerator: LayoutParamsExtensionsGenerator = LayoutParamsExtensionsGenerator(
+//        layoutParams.name, layoutParams.functions, layoutParams.properties
+//    )
 
     override fun generate(): FileSpec {
         return FileSpec.builder(viewType.packageName, viewType.simpleName)
