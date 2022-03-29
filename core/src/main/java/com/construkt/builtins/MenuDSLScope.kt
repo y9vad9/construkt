@@ -30,6 +30,14 @@ public interface MenuGroupDSLScope {
     public fun item(textRes: Int, id: Int = Menu.NONE): MenuItem
 }
 
+public fun MenuGroupDSLScope.item(text: CharSequence, id: Int = Menu.NONE, block: MenuItem.() -> Unit) {
+    item(text, id).apply(block)
+}
+
+public fun MenuGroupDSLScope.item(textRes: Int, id: Int = Menu.NONE, block: MenuItem.() -> Unit) {
+    item(textRes, id).apply(block)
+}
+
 public interface SubMenuDSLScope : MenuDSLScope {
     public fun headerIcon(@DrawableRes resource: Int)
     public fun headerIcon(drawable: Drawable)
