@@ -29,4 +29,4 @@ import kotlin.reflect.KClass
  */
 @Repeatable
 @Target(AnnotationTarget.TYPEALIAS)
-annotation class ApplyDSL<T : Any>(val forType: KClass<T>, val using: KClass<*>)
+annotation class ApplyDSL(val forType: KClass<*>, val using: KClass<*>)

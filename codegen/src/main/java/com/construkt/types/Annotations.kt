@@ -8,4 +8,6 @@ object Annotations {
     fun JvmName(name: String): AnnotationSpec =
         AnnotationSpec.builder(JvmName::class)
             .addMember("\"$name\"").build()
+    val ScopedType = ClassName("com.construkt.annotation", "ScopedType")
+    val ApplyDSL = ClassName("com.construkt.annotation", "ApplyDSL")
 }

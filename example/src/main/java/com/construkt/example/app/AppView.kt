@@ -37,6 +37,7 @@ internal fun ViewGroupScope<*>.AppView() {
             itemIconTintList(color)
             itemTextColor(color)
             labelVisibilityMode(NavigationBarView.LABEL_VISIBILITY_LABELED)
+            origin
 
             menu {
                 item("Home", id = 1).setIcon(R.drawable.ic_outline_home_24)

@@ -1,19 +1,24 @@
 package com.y9vad9.construct.ksp
 
 import com.construkt.codegen.CompoundCodeGenerator
+import com.construkt.models.ResolvedViewModel
+import com.construkt.types.Annotations
 import com.google.devtools.ksp.isPublic
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.Dependencies
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSNode
+import com.google.devtools.ksp.symbol.KSType
 import com.google.devtools.ksp.symbol.KSTypeAlias
 import com.google.devtools.ksp.visitor.KSDefaultVisitor
+import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.ksp.KotlinPoetKspPreview
 import com.squareup.kotlinpoet.ksp.toClassName
 import com.y9vad9.construct.ksp.internal.isViewGroup
 import com.y9vad9.construct.ksp.internal.resolveLayoutParams
 import java.io.OutputStreamWriter
+import kotlin.reflect.KClass
 
 class ViewDSLVisitor(private val codeGenerator: CodeGenerator, private val logger: KSPLogger) :
     KSDefaultVisitor<Unit, KSClassDeclaration?>() {
@@ -28,8 +33,19 @@ class ViewDSLVisitor(private val codeGenerator: CodeGenerator, private val logge
             Dependencies(false), view.packageName.asString(), view.simpleName.asString().plus("DSL")
         ).use { output ->
             OutputStreamWriter(output).use { writer ->
-                CompoundCodeGenerator(
-                    view.toClassName(),
+                CompoundCodeGenerator(ResolvedViewModel(view.toClassName(),
+                    typeAlias.annotations.filter { it.annotationType.resolve().toClassName() == Annotations.ApplyDSL }.map {
+                            ResolvedViewModel.WrappedType(
+                                (it.arguments.first().value as KSType).toClassName(),
+                                (it.arguments[1].value as KSType).toClassName()
+                            )
+                        }.toList(),
+                    typeAlias.annotations.filter {
+                        it.annotationType.resolve().toClassName() == Annotations.ScopedType
+                    }
+                        .map { annotation -> (annotation.arguments.first().value as ArrayList<KSType>)
+                            .map { it.toClassName() } }
+                        .flatten().map { ResolvedViewModel.ScopedType(it) }.toList()),
                     isViewGroup(view),
                     resolveLayoutParams(functions),
                     functions.filter { it.isPublic() }.distinct(),

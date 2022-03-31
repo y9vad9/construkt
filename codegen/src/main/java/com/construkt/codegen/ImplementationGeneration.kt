@@ -2,6 +2,7 @@ package com.construkt.codegen
 
 import com.construkt.codegen.mapper.implementation.CollectedFunctionToImplMapper
 import com.construkt.codegen.mapper.implementation.CollectedPropertyToFunImplMapper
+import com.construkt.models.ResolvedViewModel
 import com.construkt.types.Android
 import com.construkt.types.Annotations
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
@@ -11,7 +12,7 @@ import com.squareup.kotlinpoet.*
 class ImplementationGeneration(
     private val className: ClassName,
     private val interfaceName: ClassName,
-    private val origin: ClassName,
+    private val origin: ResolvedViewModel,
     private val functions: List<KSFunctionDeclaration>,
     private val properties: List<KSPropertyDeclaration>,
     private val isViewGroup: Boolean
@@ -26,13 +27,13 @@ class ImplementationGeneration(
             ).map { it.addModifiers(KModifier.OVERRIDE).build() }
         )
         addProperty(
-            PropertySpec.builder("origin", origin).addModifiers(KModifier.OVERRIDE).initializer("origin").build()
+            PropertySpec.builder("origin", origin.viewType).addModifiers(KModifier.OVERRIDE).initializer("origin").build()
         )
         primaryConstructor(
             FunSpec.constructorBuilder().addParameters(
                 listOf(
                     ParameterSpec.builder("context", Android.Context).build(),
-                    ParameterSpec.builder("origin", origin).build(),
+                    ParameterSpec.builder("origin", origin.viewType).build(),
                     ParameterSpec.builder("lifecycleOwner", Android.LifecycleOwner).build()
                 )
             ).build()
@@ -66,8 +67,8 @@ class ImplementationGeneration(
         return TypeSpec.classBuilder(className.simpleName)
             .addModifiers(KModifier.PRIVATE)
             .addSuperinterface(interfaceName)
-            .addFunctions(functions.mapNotNull(CollectedFunctionToImplMapper))
-            .addFunctions(properties.mapNotNull(CollectedPropertyToFunImplMapper))
+            .addFunctions(functions.mapNotNull(CollectedFunctionToImplMapper(origin.wrapped, origin.scoped)))
+            .addFunctions(properties.mapNotNull(CollectedPropertyToFunImplMapper(origin.scoped, origin.wrapped)))
             .applyParameters()
             .applyAddViewIfPossible()
             .build()
