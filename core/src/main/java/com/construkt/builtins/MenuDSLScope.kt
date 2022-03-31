@@ -18,6 +18,24 @@ public annotation class MenuDSL
 @InternalConstruktApi
 public fun Menu.menuDsl(): MenuDSLScope = MenuDSLImplScope(this)
 
+/**
+ * DSL Scope for functions that have [android.view.Menu] return type.
+ * It will be automatically implemented by code generation.
+ * ### Example
+ * ```kotlin
+ * bottomNavigationBar(frameLayoutParams().maxWidth()) {
+ *  menu {
+ *      item("Home")
+ *      item(R.string.about)
+ *      group("extra") {
+ *          item("Quit app")
+ *      }
+ *  }
+ * }
+ * ```
+ * @see [issue](https://github.com/y9vad9/construkt/issues/1)
+ * @see [developer.android.com](https://developer.android.com/reference/android/view/Menu).
+ */
 public interface MenuDSLScope : MenuGroupDSLScope {
     public fun group(id: Int, block: MenuGroupDSLScope.() -> Unit)
 }
